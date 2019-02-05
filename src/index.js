@@ -20,9 +20,10 @@ module.exports = class GhostBuster extends Plugin {
     MessagesPopout.prototype.render = (_render => function(...args) {
       if (this.props.analyticsName === 'Recent Mentions') {
         if (this.props.messages) {
-          this.props.messages = [...new Set(this.props.messages)]
+          this.props.messages = this.props.messages
             .concat(_this.messages)
-            .sort((msg, prev) => prev.timestamp._d - msg.timestamp._d);
+            .sort((msg, prev) => prev.timestamp._d - msg.timestamp._d)
+            .reduce((prev, curr) => prev.find(a => a.id === curr.id) ? prev : prev.push(curr) && prev, [])
         } else {
           this.props.messages = _this.messages;
         }
