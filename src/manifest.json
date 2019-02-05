@@ -1,0 +1,9 @@
+{
+    "name": "Ghostbuster",
+    "version": "1.0.0",
+    "description": "Saves deleted messages that mention you in the \"Recent Mentions\" popout",
+    "author": "Nevulo & Joakim",
+    "license": "MIT",
+    "repo": "https://github.com/Nevvulo/ghostbuster"
+  }
+  
