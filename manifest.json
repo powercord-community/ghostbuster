@@ -1,6 +1,6 @@
 {
     "name": "Ghostbuster",
-    "version": "1.0.0",
+    "version": "1.0.2",
     "description": "Saves deleted messages that mention you in the \"Recent Mentions\" popout",
     "author": "Nevulo & Joakim",
     "license": "MIT",
