@@ -3,9 +3,7 @@ const Plugin = require('powercord/Plugin');
 const { getModule, getModuleByDisplayName } = require('powercord/webpack');
 const { create: createMessage } = getModule(m => m.prototype && m.prototype.updateMessage);
 
-const MessagesPopout = getModuleByDisplayName('MessagesPopout');
-
-const { inject } = require('powercord/injector');
+const { inject, uninject } = require('powercord/injector');
 
 const { isMentioned } = getModule([ 'isMentioned' ]);
 const { getCurrentUser } = getModule([ 'getCurrentUser' ]);
@@ -23,12 +21,13 @@ module.exports = class GhostBuster extends Plugin {
       if (self.id !== message.author.id && isMentioned(message, self.id, true)) {
         this.messages.push(createMessage(message));
       }
-      
+
       return res;
     });
 
     const _this = this;
-    MessagesPopout.prototype.render = (_render => function (...args) {
+    const MessagesPopout = await getModuleByDisplayName('MessagesPopout');
+    inject('pc-ghostbuster-render', MessagesPopout.prototype, 'render', function (args, res) {
       if (this.props.analyticsName === 'Recent Mentions') {
         if (this.props.messages) {
           this.props.messages = this.props.messages
@@ -40,7 +39,12 @@ module.exports = class GhostBuster extends Plugin {
         }
       }
 
-      return _render.call(this, ...args);
-    })(MessagesPopout.prototype.render);
+      return res;
+    });
+  }
+
+  unload () {
+    uninject('pc-ghostbuster-shouldNotify');
+    uninject('pc-ghostbuster-render');
   }
 };
