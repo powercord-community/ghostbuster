@@ -13,8 +13,8 @@ module.exports = class GhostBuster extends Plugin {
     this.messages = [];
 
     // Thanks Joakim!
-    const mdl = getModule([ 'shouldNotify' ]);
-    inject('pc-ghostbuster-shouldNotify', mdl, 'shouldNotify', (args, res) => {
+    const mdl = await getModule([ 'shouldNotify' ]);
+    inject('ghostbuster-shouldNotify', mdl, 'shouldNotify', (args, res) => {
       const self = getCurrentUser();
       const message = args[0];
 
@@ -27,7 +27,7 @@ module.exports = class GhostBuster extends Plugin {
 
     const _this = this;
     const MessagesPopout = await getModuleByDisplayName('MessagesPopout');
-    inject('pc-ghostbuster-render', MessagesPopout.prototype, 'render', function (args, res) {
+    inject('ghostbuster-render', MessagesPopout.prototype, 'render', function (args) {
       if (this.props.analyticsName === 'Recent Mentions') {
         if (this.props.messages) {
           this.props.messages = this.props.messages
@@ -39,12 +39,12 @@ module.exports = class GhostBuster extends Plugin {
         }
       }
 
-      return res;
-    });
+      return args;
+    }, true);
   }
 
   unload () {
-    uninject('pc-ghostbuster-shouldNotify');
-    uninject('pc-ghostbuster-render');
+    uninject('ghostbuster-shouldNotify');
+    uninject('ghostbuster-render');
   }
 };
