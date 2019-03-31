@@ -1,4 +1,4 @@
-const Plugin = require('powercord/Plugin');
+const { Plugin } = require('powercord/entities');
 
 const { getModule, getModuleByDisplayName } = require('powercord/webpack');
 const { create: createMessage } = getModule(m => m.prototype && m.prototype.updateMessage);
@@ -9,7 +9,7 @@ const { isMentioned } = getModule([ 'isMentioned' ]);
 const { getCurrentUser } = getModule([ 'getCurrentUser' ]);
 
 module.exports = class GhostBuster extends Plugin {
-  async start () {
+  async startPlugin () {
     this.messages = [];
 
     // Thanks Joakim!
@@ -43,7 +43,7 @@ module.exports = class GhostBuster extends Plugin {
     }, true);
   }
 
-  unload () {
+  pluginWillUnload () {
     uninject('ghostbuster-shouldNotify');
     uninject('ghostbuster-render');
   }
