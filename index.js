@@ -24,7 +24,7 @@ module.exports = class GhostBuster extends Plugin {
     });
 
     const _this = this;
-    const MessagesPopout = await getModuleByDisplayName('MessagesPopout');
+    const MessagesPopout = (await getModuleByDisplayName('FluxContainer(MessagesPopout)'));
     inject('ghostbuster-render', MessagesPopout.prototype, 'render', function (args) {
       if (this.props.analyticsName === 'Recent Mentions') {
         if (this.props.messages) {
