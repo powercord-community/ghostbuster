@@ -9,8 +9,8 @@ module.exports = class GhostBuster extends Plugin {
     const { isMentioned } = await getModule([ 'isMentioned' ]);
     const { getCurrentUser } = await getModule([ 'getCurrentUser' ]);
     const Message = await getModule(m => m.prototype && m.prototype.getReaction && m.prototype.isSystemDM);
-		const Author = await getModule(m => m.prototype && m.prototype.getAvatarURL && m.prototype.isStaff);
-		const Timestamp = await getModule(m => m.prototype && m.prototype.add && m.prototype.toDate);
+    const Author = await getModule(m => m.prototype && m.prototype.getAvatarURL && m.prototype.isStaff);
+	  const Timestamp = await getModule(m => m.prototype && m.prototype.add && m.prototype.toDate);
 
     // Thanks Joakim!
     const mdl = await getModule([ 'shouldNotify' ]);
